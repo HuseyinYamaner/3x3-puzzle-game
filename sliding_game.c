@@ -17,27 +17,35 @@ void ciz(int dizi[3][3]){
 	}
 }
 
-void oyna(int dizi[3][3],int *konum_i, int *konum_j,char hamle){
+int oyna(int dizi[3][3],int *konum_i, int *konum_j,char hamle){
+	
+	int hamle_yapildi=0;
+
 	if((hamle=='w' || hamle=='W') && *konum_i>0){
 		dizi[*konum_i][*konum_j]=dizi[*konum_i-1][*konum_j];
 		dizi[*konum_i-1][*konum_j]=0;
 		(*konum_i)--;
+		hamle_yapildi=1;
 	}
 	else if((hamle=='s' || hamle=='S') && *konum_i<2){
 		dizi[*konum_i][*konum_j]=dizi[*konum_i+1][*konum_j];
 		dizi[*konum_i+1][*konum_j]=0;
 		(*konum_i)++;
+		hamle_yapildi=1;
 	}
 	else if((hamle=='a' || hamle=='A') && *konum_j>0){
 		dizi[*konum_i][*konum_j]=dizi[*konum_i][*konum_j-1];
 		dizi[*konum_i][*konum_j-1]=0;
 		(*konum_j)--;
+		hamle_yapildi=1;
 	}
 	else if((hamle=='d' || hamle=='D') && *konum_j<2){
 		dizi[*konum_i][*konum_j]=dizi[*konum_i][*konum_j+1];
 		dizi[*konum_i][*konum_j+1]=0;
 		(*konum_j)++;
+		hamle_yapildi=1;
 	}
+	return hamle_yapildi;
 }
 
 int kontrol(int dizi[3][3]){
@@ -82,6 +90,11 @@ void karistir(int dizi[3][3], int *konum_i, int *konum_j){
 }
 
 int main(){
+	
+	time_t baslangic_zamani = time(NULL);
+	
+	int hamle_sayisi=0;
+	
 	int dizi[3][3]={ {1,2,3},{4,5,6},{7,8,0} };
 	int konum_i=2,konum_j=2,oyun_devam=1;
 	char hamle;
@@ -92,6 +105,20 @@ int main(){
 		ciz(dizi);
 		if(kontrol(dizi)==1){
 			printf("Tebrikler, Puzzle Cozuldu!\n");
+			
+			time_t su_an = time(NULL);
+        	double gecen_sure = difftime(su_an, baslangic_zamani);
+        	
+        	if (gecen_sure < 30) 
+				printf("Cok hizli\n");
+            else if (gecen_sure < 60)
+				printf("Gayet Guzel\n");
+            else if (gecen_sure < 120)
+				printf("Fena degil\n");
+            else printf("... Baska bir zaman\n");
+            
+            printf("Oyun %d hamlede bitti.",hamle_sayisi);
+        	
 			break;
 		}
 		printf("Yapilan Hamle: ");
@@ -101,7 +128,8 @@ int main(){
 			printf("Oyun Bitti.\n");
 		}
 		else{
-			oyna(dizi,&konum_i,&konum_j,hamle);
+			if(oyna(dizi,&konum_i,&konum_j,hamle))
+			hamle_sayisi++;
 		}
 	}
 	return 0;
