@@ -1,143 +1,109 @@
-#include <stdio.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <time.h>
-#include <conio.h>
 
-void randomize(int temparr[8])
-{
-	int i, j, temp;
-	for (i = 0; i < 8; i++)
-	{
-		j = rand() % 8;
-		temp = temparr[i];
-		temparr[i] = temparr[j];
-		temparr[j] = temp;
-	}	
-}	
+void ciz(int dizi[3][3]){
+	printf("\033[H\033[J");
 
-void ata(int dizi[3][3],int temparr[8])
-{
-for (int i = 0;i < 3;i++)
-	{
-		for (int j = 0;j < 3;j++)
-		{
-			if (i == 2 && j == 2)
-			{
-				dizi[i][j] = 0;
-				continue;
-			}
-			dizi[i][j] = temparr[i * 3 + j];//0*3+0=0,0*3+1=1,0*3+2=2,1*3+0=3,1*3+1=4,1*3+2=5,2*3+0=6,2*3+1=7,2*3+2=8
-		}
-	}		
-}
-
-void ciz(int dizi[3][3])
-{
-	printf("-------------\n");
-	for (int i = 0;i < 3;i++)
-	{
-		for (int j = 0;j < 3;j++)
-		{
-			printf("[%d]", dizi[i][j]);
-		}
-		printf("\n");
+	for(int i=0;i<3;i++){
+		for(int j=0;j<3;j++){
+			if(dizi[i][j]==0)
+		        printf("[    ]");
+			else
+			    printf("[ %d ]", dizi[i][j]);
 	}
-	printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");		
-}
-
-int bitir(int dizi[3][3])
-{
-	int kontrol[3][3] = { {1, 2, 3}, { 4,5,6 }, { 7,8,0 } };
-	for (int i = 0;i < 3;i++)
-	{
-		for (int j = 0;j < 3;j++)
-		{
-			if (dizi[i][j] != kontrol[i][j])
-			{
-				return 0;
-			}
-		}
-	}
-	return 1;		
-}
-
-void oyna(int dizi[3][3], int *konum_i, int *konum_j)
-{
-	int hamle;
-	hamle = _getch();
-	if (hamle == 'w')//yukarý hareket
-	{
-		if (*konum_i > 0)
-		{
-			dizi[*konum_i][*konum_j] = dizi[*konum_i - 1][*konum_j];
-			dizi[*konum_i - 1][*konum_j] = 0;
-			*konum_i -= 1;
-		}
-	}
-	else if (hamle == 's')//aþaðý hareket
-	{	
-		if (*konum_i < 2)
-		{
-			dizi[*konum_i][*konum_j] = dizi[*konum_i + 1][*konum_j];
-			dizi[*konum_i + 1][*konum_j] = 0;
-			*konum_i += 1;
-		}
-		
-	}
-	else if (hamle == 'a')//sol hareket
-	{
-		if (*konum_j > 0)
-		{
-			dizi[*konum_i][*konum_j] = dizi[*konum_i][*konum_j - 1];
-			dizi[*konum_i][*konum_j - 1] = 0;
-			*konum_j -= 1;
-		}
-		
-	}
-	else if (hamle == 'd')//sað hareket
-	{
-		if(*konum_j < 2)
-		{
-			dizi[*konum_i][*konum_j] = dizi[*konum_i][*konum_j + 1];
-			dizi[*konum_i][*konum_j + 1] = 0;
-			*konum_j += 1;
-		}
-	}	
-}
-
-int main()
-{
-	int konum_i=2, konum_j=2;
-	srand(time(NULL));
-	
-	int dizi[3][3];
-	int gecici[8]={1,2,3,4,5,6,7,8};
-	
-	printf("Numbers: \n");
-	for (int i = 0;i < 8;i++)
-	{
-		printf("%d ", gecici[i]);
-	}
-	
-	randomize(gecici);
-	printf("\nRandomized numbers: \n");
-	for (int i = 0;i < 8;i++)
-	{
-		printf("%d ", gecici[i]);
-	}
-	
 	printf("\n\n");
 	
-	ata(dizi, gecici);
-	
-	ciz(dizi);	
-	
-	
-	while(!bitir(dizi))
-	{
-		oyna(dizi, &konum_i, &konum_j);
-		ciz(dizi);
 	}
-	printf("Cozdun");	
-	
+}
+
+void oyna(int dizi[3][3],int *konum_i, int *konum_j,char hamle){
+	if((hamle=='w' || hamle=='W') && *konum_i>0){
+		dizi[*konum_i][*konum_j]=dizi[*konum_i-1][*konum_j];
+		dizi[*konum_i-1][*konum_j]=0;
+		(*konum_i)--;
+	}
+	else if((hamle=='s' || hamle=='S') && *konum_i<2){
+		dizi[*konum_i][*konum_j]=dizi[*konum_i+1][*konum_j];
+		dizi[*konum_i+1][*konum_j]=0;
+		(*konum_i)++;
+	}
+	else if((hamle=='a' || hamle=='A') && *konum_j>0){
+		dizi[*konum_i][*konum_j]=dizi[*konum_i][*konum_j-1];
+		dizi[*konum_i][*konum_j-1]=0;
+		(*konum_j)--;
+	}
+	else if((hamle=='d' || hamle=='D') && *konum_j<2){
+		dizi[*konum_i][*konum_j]=dizi[*konum_i][*konum_j+1];
+		dizi[*konum_i][*konum_j+1]=0;
+		(*konum_j)++;
+	}
+}
+
+int kontrol(int dizi[3][3]){
+	int sayac=1,i,j;
+	for(i=0;i<3;i++){
+		for(j=0;j<3;j++){
+			if(i==2 && j==2){
+				if(dizi[i][j]==0){
+					return 1;
+				}
+				else {
+					return 0;
+				}
+			}
+			if(dizi[i][j]!=sayac){
+				return 0;
+			}
+			sayac++;
+		}
+	}
+	return 1;
+}
+
+void karistir(int dizi[3][3], int *konum_i, int *konum_j){
+	int randomhamle;
+	srand(time(NULL));
+	for(int i=0;i<100;i++){
+		randomhamle=rand()%4; //4 kullaninca 0,1,2,3 sayilarini buluyor tuslara esdeger.
+		if (randomhamle == 0) {
+            oyna(dizi, konum_i, konum_j, 'w'); 
+        } 
+        else if (randomhamle == 1) {
+            oyna(dizi, konum_i, konum_j, 's');
+        } 
+        else if (randomhamle == 2) {
+            oyna(dizi, konum_i, konum_j, 'a');
+        } 
+        else if (randomhamle == 3) {
+            oyna(dizi, konum_i, konum_j, 'd');
+        }
+	}
+}
+
+int main(){
+	int dizi[3][3]={ {1,2,3},{4,5,6},{7,8,0} };
+	int konum_i=2,konum_j=2,oyun_devam=1;
+	char hamle;
+
+	karistir(dizi,&konum_i, &konum_j);
+
+	while(oyun_devam==1){
+		ciz(dizi);
+		if(kontrol(dizi)==1){
+			printf("Tebrikler, Puzzle Cozuldu!\n");
+			break;
+		}
+		printf("Yapilan Hamle: ");
+		scanf(" %c", &hamle);
+		if(hamle=='q' || hamle=='Q'){
+			oyun_devam=0;
+			printf("Oyun Bitti.\n");
+		}
+		else{
+			oyna(dizi,&konum_i,&konum_j,hamle);
+		}
+	}
+	return 0;
+
 }
