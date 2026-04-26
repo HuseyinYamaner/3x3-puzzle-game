@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
+#include <conio.h>
 
 void ciz(int dizi[3][3]){
 	printf("\033[H\033[J");
@@ -95,6 +96,11 @@ int main(){
 	
 	int hamle_sayisi=0;
 	
+	int sistem=2;
+	
+	printf("Mac kullaniyorsaniz 1 \nWindows kullaniyorsaniz 2\n");
+	scanf("%d",&sistem);
+	
 	int dizi[3][3]={ {1,2,3},{4,5,6},{7,8,0} };
 	int konum_i=2,konum_j=2,oyun_devam=1;
 	char hamle;
@@ -122,7 +128,17 @@ int main(){
 			break;
 		}
 		printf("Yapilan Hamle: ");
-		scanf(" %c", &hamle);
+		
+		if(sistem==1)
+		{
+			scanf(" %c", &hamle);
+		}
+		else
+		{
+			hamle=getch();
+		}
+		
+		
 		if(hamle=='q' || hamle=='Q'){
 			oyun_devam=0;
 			printf("Oyun Bitti.\n");
